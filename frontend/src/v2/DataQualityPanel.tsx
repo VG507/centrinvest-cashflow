@@ -1,5 +1,5 @@
 import { Database, CalendarDays, Tags, Copy, TriangleAlert } from 'lucide-react';
-import type { ForecastSnapshot } from '../../../blackboard/contracts/types';
+import type { ForecastSnapshot } from '../../../contracts/types';
 import { Percent } from './shared';
 import { fullDate } from '../lib/cashflow';
 

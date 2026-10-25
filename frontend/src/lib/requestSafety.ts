@@ -1,4 +1,4 @@
-import type { CreateForecastRequest } from '../../../blackboard/contracts/types';
+import type { CreateForecastRequest } from '../../../contracts/types';
 
 type StorageAccess = Pick<Storage, 'getItem' | 'setItem'>;
 const requestKey = (companyId: string) => `forecast-requests:${companyId}`;

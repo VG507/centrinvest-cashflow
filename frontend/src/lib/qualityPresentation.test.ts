@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createElement} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import type {EvaluationResponse} from '../../../blackboard/contracts/types';
+import type {EvaluationResponse} from '../../../contracts/types';
 import {QualityResults} from '../v2/Quality';
 const result:EvaluationResponse={id:'evaluation-test',company_id:'company-test',created_at:'2026-10-24T12:00:00Z',data_revision:3,split_method:'rolling_origin',test_days:30,folds:[{train_end:'2026-06-01',test_start:'2026-06-02',test_end:'2026-07-01'}],metrics:[{model:'ridge_calendar',mae_balance:0,mae_income:0,mae_expense:0,wape_cashflow:null,interval_empirical_coverage:null,gap_precision:null,gap_recall:null,average_warning_lead_days:null,gap_brier_score:null,evaluated_days:0}],selected_model:'ridge_calendar',selection_reason:'Причина выбора от сервера',limitations:[]};
 const plain=(html:string)=>html.replace(/<[^>]*>/g,'').replace(/\u00a0/g,' ');

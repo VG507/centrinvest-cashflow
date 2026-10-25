@@ -1,5 +1,5 @@
-import { API_ROUTES } from '../../../blackboard/contracts/types';
-import type { ApiOperations } from '../../../blackboard/contracts/types';
+import { API_ROUTES } from '../../../contracts/types';
+import type { ApiOperations } from '../../../contracts/types';
 
 export class ApiFailure extends Error {
   constructor(public status: number, message: string, public fields: { field: string; message: string }[] = []) { super(message); }

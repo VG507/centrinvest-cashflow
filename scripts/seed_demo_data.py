@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-scripts/seed_second_demo_user.py
+scripts/seed_demo_data.py
 
-Creates a second demo user with two distinct commercial companies,
-populates each with statement transactions from mentor datasets (C002 and C003),
+Creates demo commercial entities, populates each with statement
+transactions from benchmark datasets (retail and construction sectors),
 detects recurring patterns, and computes initial forecasts.
-Supports seeding both local and remote VPS PostgreSQL databases.
+Supports seeding both local and remote PostgreSQL databases.
 """
 
 import sys
@@ -33,18 +33,25 @@ SECOND_USER_EMAIL = "client@centrinvest.ru"
 SECOND_USER_PASSWORD = "password123"
 SECOND_USER_NAME = "Анна Смирнова (Финансовый директор)"
 
+def _find_fixture(primary_name: str, fallback_name: str) -> Path:
+    p1 = PROJECT_ROOT / "fixtures" / "statements" / primary_name
+    if p1.exists():
+        return p1
+    p2 = PROJECT_ROOT / "data" / "statements" / fallback_name
+    return p2
+
 COMPANIES_SPEC = [
     {
         "name": "ООО «Донские Продукты»",
         "business_type": "Продуктовый ритейл",
-        "statement_file": PROJECT_ROOT / "data/statements/C002.csv",
+        "statement_file": _find_fixture("C002_retail.csv", "C002.csv"),
         "as_of_date": "2026-09-29",
         "model": "weekday_mean"
     },
     {
         "name": "ИП «Южный Ремонт»",
         "business_type": "Строительство и ремонт",
-        "statement_file": PROJECT_ROOT / "data/statements/C003.csv",
+        "statement_file": _find_fixture("C003_construction.csv", "C003.csv"),
         "as_of_date": "2026-09-29",
         "model": "ridge_calendar"
     }

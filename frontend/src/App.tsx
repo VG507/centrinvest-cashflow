@@ -1,7 +1,7 @@
 import { Select } from './v2/Select';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDownLeft, ArrowDownToLine, ArrowRight, ArrowUpRight, CalendarDays, ChartNoAxesCombined, Check, CircleHelp, FileSpreadsheet, Landmark, LoaderCircle, Plus, RefreshCw, ShieldCheck, Sparkles, TriangleAlert, Upload, Wallet, X } from 'lucide-react';
-import type { AdvisorResponse, ForecastResult, TransactionPoint } from '../../blackboard/contracts/types';
+import type { AdvisorResponse, ForecastResult, TransactionPoint } from '../../contracts/types';
 import * as api from './lib/api';
 import { addDays, dateLabel, downloadCsv, exampleHistory, fullDate, historicalBalances, historyCsv, parseDailyCsv, rub } from './lib/cashflow';
 

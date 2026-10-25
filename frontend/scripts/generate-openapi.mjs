@@ -6,7 +6,7 @@ import { createGenerator } from 'ts-json-schema-generator';
 import { stringify } from 'yaml';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const sourcePath = path.join(root, 'blackboard/contracts/types.ts');
+const sourcePath = path.join(root, 'contracts/types.ts');
 const sourceText = fs.readFileSync(sourcePath, 'utf8');
 const source = ts.createSourceFile(sourcePath, sourceText, ts.ScriptTarget.Latest, true);
 const compiled = ts.transpileModule(sourceText, { compilerOptions: { module: ts.ModuleKind.ESNext } }).outputText;
@@ -72,7 +72,7 @@ for (const name of Object.keys(schemas)) {
   if (!/^[a-zA-Z0-9._-]+$/.test(name)) throw new Error(`Invalid OpenAPI component name: ${name}`);
 }
 if (Object.keys(operationTypes).length !== Object.keys(API_ROUTES).length) throw new Error('Operation catalog mismatch.');
-const target = path.join(root, 'blackboard/contracts/api.yaml');
+const target = path.join(root, 'contracts/api.yaml');
 const output = '# Generated from types.ts; do not edit by hand.\n' + stringify(document, { lineWidth: 120 });
 if (process.argv.includes('--check')) {
   if (fs.readFileSync(target, 'utf8').replace(/\r\n/g, '\n') !== output) throw new Error('OpenAPI differs from types.ts. Run npm run contracts.');

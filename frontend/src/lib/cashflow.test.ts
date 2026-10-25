@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import type { ForecastResult } from '../../../blackboard/contracts/types';
+import type { ForecastResult } from '../../../contracts/types';
 import { addDays, checkForecast, exampleHistory, historicalBalances, historyCsv, parseDailyCsv, validDate } from './cashflow';
 
 test('CSV supports BOM, decimal comma, sorted dates, and rejects ambiguous/missing days', () => {

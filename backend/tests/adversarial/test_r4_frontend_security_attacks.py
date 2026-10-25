@@ -33,7 +33,7 @@ from src.services.auth_service import AuthService, hash_password
 from src.database import async_session_factory
 from src.config import settings
 
-REPO_ROOT = Path("/home/ijstt/hackrnd-2026")
+REPO_ROOT = Path(__file__).resolve().parents[3]
 FRONTEND_SRC = REPO_ROOT / "frontend" / "src"
 
 

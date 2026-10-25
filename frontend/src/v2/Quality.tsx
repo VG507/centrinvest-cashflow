@@ -3,7 +3,7 @@ import { DataQualityPanel } from './DataQualityPanel';
 import { Select } from './Select';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronDown, FlaskConical, Info, CalendarRange } from 'lucide-react';
-import type { Company, EvaluationResponse, ForecastSnapshot, ModelId } from '../../../blackboard/contracts/types';
+import type { Company, EvaluationResponse, ForecastSnapshot, ModelId } from '../../../contracts/types';
 import { addDays, fullDate, rub } from '../lib/cashflow';
 import { api, messageOf } from './client';
 import { Empty, ErrorBox, Loading, modelNames, Percent } from './shared';

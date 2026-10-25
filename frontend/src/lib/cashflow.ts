@@ -1,4 +1,4 @@
-import type { ForecastResult, TransactionPoint } from '../../../blackboard/contracts/types';
+import type { ForecastResult, TransactionPoint } from '../../../contracts/types';
 
 export const rub = (value: number) => new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(value);
 export const shortRub = (value: number) => new Intl.NumberFormat('ru-RU', { notation: 'compact', maximumFractionDigits: 1 }).format(value) + ' ₽';

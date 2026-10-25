@@ -5,7 +5,7 @@ import { TableViewport } from './TableViewport';
 import { Select } from './Select';
 import { useMemo, useRef, useState } from 'react';
 import { ChevronRight, FileSpreadsheet, Search, Upload } from 'lucide-react';
-import type { Category, CategoryId, CategoryTotal, ColumnMapping, ImportResponse, TransactionQuery } from '../../../blackboard/contracts/types';
+import type { Category, CategoryId, CategoryTotal, ColumnMapping, ImportResponse, TransactionQuery } from '../../../contracts/types';
 import { dateLabel, rub } from '../lib/cashflow';
 import { api, messageOf } from './client';
 import { Empty, ErrorBox, Loading, useResource } from './shared';

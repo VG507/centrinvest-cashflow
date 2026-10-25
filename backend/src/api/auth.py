@@ -6,7 +6,7 @@ from src.services.auth_service import AuthService
 from src.schemas.contracts import (
     LoginRequest, SessionResponse, LogoutResponse, UserSessionInfo
 )
-from src.api.deps import AntigravityApiException, get_current_user, get_session_token
+from src.api.deps import PlatformApiException, get_current_user, get_session_token
 from src.models.entities import User
 from src.config import settings
 
@@ -36,7 +36,7 @@ async def login(
 
     user = await AuthService.authenticate(db, req.email, req.password)
     if not user:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             code="unauthorized",
             message="Invalid email or password"
@@ -75,7 +75,7 @@ async def get_session(
     token = await get_session_token(request)
     val = await AuthService.validate_session(db, token)
     if not val:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             code="unauthorized",
             message="Invalid session"

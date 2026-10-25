@@ -1,4 +1,4 @@
-import type { ForecastSnapshot, ScenarioResponse } from '../../../blackboard/contracts/types';
+import type { ForecastSnapshot, ScenarioResponse } from '../../../contracts/types';
 import { rub } from '../lib/cashflow';
 import { Percent } from './shared';
 

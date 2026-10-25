@@ -1,5 +1,5 @@
 import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
-import type { Category, CategoryTotal } from '../../../blackboard/contracts/types';
+import type { Category, CategoryTotal } from '../../../contracts/types';
 import { rub } from '../lib/cashflow';
 import { categoryName, Empty } from './shared';
 

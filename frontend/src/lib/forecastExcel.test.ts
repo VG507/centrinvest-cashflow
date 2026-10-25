@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import writeExcelFile from 'write-excel-file/node';
 import { readSheet } from 'read-excel-file/node';
 import { forecastExcelOptions, forecastExcelRows } from './forecastExcel';
-import type { ForecastDay } from '../../../blackboard/contracts/types';
+import type { ForecastDay } from '../../../contracts/types';
 
 test('Excel export roundtrips dates, numeric amounts, zero probability and unavailable intervals', async () => {
   const days: ForecastDay[] = [

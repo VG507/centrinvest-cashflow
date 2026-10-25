@@ -1,4 +1,4 @@
-import type { PlanActualDay } from '../../../blackboard/contracts/types';
+import type { PlanActualDay } from '../../../contracts/types';
 import { addDays } from '../lib/cashflow';
 export function groupPlanWeeks(days: PlanActualDay[]): PlanActualDay[] {
   const groups=new Map<string,PlanActualDay[]>();

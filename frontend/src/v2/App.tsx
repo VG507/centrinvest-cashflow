@@ -3,7 +3,7 @@ import { UserMenu } from './UserMenu';
 import { Select } from './Select';
 import { lazy, startTransition, Suspense, useEffect, useRef, useState } from 'react';
 import { CalendarDays, ChartNoAxesCombined, FileSpreadsheet, FlaskConical, GitCompareArrows, ShieldCheck, SlidersHorizontal } from 'lucide-react';
-import type { CapabilitiesResponse, Company, CreateForecastRequest, EventListResponse, ForecastSnapshot, PlannedEvent, SessionResponse } from '../../../blackboard/contracts/types';
+import type { CapabilitiesResponse, Company, CreateForecastRequest, EventListResponse, ForecastSnapshot, PlannedEvent, SessionResponse } from '../../../contracts/types';
 import { Brand } from './Brand';
 import Login from './Session';
 import { api, ApiFailure, messageOf } from './client';

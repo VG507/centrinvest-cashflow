@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Manual database migration and schema verification script for Hack RND 2026.
+"""Database migration and schema verification script.
 
-Ensures PostgreSQL tables and initial demo entities are created cleanly
+Ensures PostgreSQL tables and initial platform entities are created cleanly
 on target database host.
 """
 
@@ -147,45 +147,14 @@ async def run_migration(db_url: str) -> bool:
         await engine.dispose()
 
 
-def notify_bridge(redis_url: str, db_url: str, details: str = "Database schema synchronized"):
-    """Optionally broadcast migration event over Redis bridge."""
-    try:
-        import redis
-        client = redis.Redis.from_url(redis_url, decode_responses=True)
-        # Import bridge publisher if available
-        bridge_script = os.path.join(os.path.dirname(__file__), "agent_redis_bridge.py")
-        if os.path.exists(bridge_script):
-            import agent_redis_bridge
-            agent_redis_bridge.publish_event(
-                client=client,
-                channel="agent:events",
-                event_type="migration_completed",
-                data={
-                    "target": "vps",
-                    "revision": "v2.0.0",
-                    "details": details,
-                    "db_target": db_url.split("@")[-1] if "@" in db_url else db_url
-                },
-                sender="backend"
-            )
-            print("Successfully published migration notification to Redis bridge.")
-    except Exception as err:
-        print(f"Notice: Redis notification skipped: {err}")
-
-
 def main():
-    parser = argparse.ArgumentParser(description="Hack RND 2026 Manual DB Migration")
+    parser = argparse.ArgumentParser(description="Database migration runner")
     parser.add_argument("--db-url", default=DEFAULT_DB_URL, help="Asyncpg database URL")
-    parser.add_argument("--notify-redis", action="store_true", help="Broadcast migration event to Redis bridge")
-    parser.add_argument("--redis-url", default=DEFAULT_REDIS_URL, help="Redis bridge URL")
     args = parser.parse_args()
 
     success = asyncio.run(run_migration(args.db_url))
     if not success:
         sys.exit(1)
-
-    if args.notify_redis:
-        notify_bridge(args.redis_url, args.db_url)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from src.models.entities import Company, CompanyMembership, User
 from src.schemas.contracts import (
     Company as CompanySchema, CompanyListResponse, CompanyCreateRequest
 )
-from src.api.deps import AntigravityApiException, get_current_user, verify_company_access
+from src.api.deps import PlatformApiException, get_current_user, verify_company_access
 
 from src.services.auth_service import AuthService
 
@@ -79,7 +79,7 @@ async def get_company(
     res = await db.execute(select(Company).where(Company.id == company_id))
     comp = res.scalar_one_or_none()
     if not comp:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=f"Company {company_id} not found"

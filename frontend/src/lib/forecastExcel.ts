@@ -1,5 +1,5 @@
 import type { SheetData } from 'write-excel-file/browser';
-import type { ForecastDay, ForecastSnapshot } from '../../../blackboard/contracts/types';
+import type { ForecastDay, ForecastSnapshot } from '../../../contracts/types';
 
 export const forecastExcelOptions = {
   sheet: 'Прогноз',

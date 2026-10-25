@@ -1,4 +1,4 @@
-import type { ColumnMapping } from '../../../blackboard/contracts/types';
+import type { ColumnMapping } from '../../../contracts/types';
 import { validDate } from '../lib/cashflow';
 
 export interface StatementPreview { headers: string[]; rows: string[][] }

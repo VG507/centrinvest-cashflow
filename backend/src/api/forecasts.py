@@ -12,7 +12,7 @@ from src.schemas.contracts import (
     CreateForecastRequest, ForecastSnapshot, ForecastUpdateRequest, ForecastUpdateResponse,
     ScenarioRequest, ScenarioResponse, PlanActualResponse, AdviceRequest, AdviceResponse
 )
-from src.api.deps import AntigravityApiException, verify_company_access
+from src.api.deps import PlatformApiException, verify_company_access
 
 router = APIRouter(prefix="/api/v2/companies/{company_id}", tags=["forecasts"])
 
@@ -27,24 +27,24 @@ async def create_forecast(
         return await ForecasterService.create_forecast(db, company_id, req)
     except ValueError as e:
         if "conflict" in str(e):
-            raise AntigravityApiException(
+            raise PlatformApiException(
                 status_code=status.HTTP_409_CONFLICT,
                 code="conflict",
                 message=str(e)
             )
         if "insufficient_data" in str(e):
-            raise AntigravityApiException(
+            raise PlatformApiException(
                 status_code=422,
                 code="insufficient_data",
                 message=str(e)
             )
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_400_BAD_REQUEST,
             code="validation_error",
             message=str(e)
         )
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)
@@ -65,7 +65,7 @@ async def get_forecast(
     )
     rec = res.scalar_one_or_none()
     if not rec:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=f"Forecast {forecast_id} not found"
@@ -105,18 +105,18 @@ async def update_forecast(
         return await IncrementalService.update_forecast(db, company_id, forecast_id, req)
     except ValueError as e:
         if "conflict" in str(e):
-            raise AntigravityApiException(
+            raise PlatformApiException(
                 status_code=status.HTTP_409_CONFLICT,
                 code="conflict",
                 message=str(e)
             )
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_400_BAD_REQUEST,
             code="validation_error",
             message=str(e)
         )
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)
@@ -133,13 +133,13 @@ async def create_scenario(
     try:
         return await ScenarioService.simulate_scenario(db, company_id, forecast_id, req)
     except ValueError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=422,
             code="validation_error",
             message=str(e)
         )
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)
@@ -165,7 +165,7 @@ async def get_plan_actual(
             granularity=granularity
         )
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)
@@ -187,7 +187,7 @@ async def get_forecast_advice(
             business_type=req.business_type
         )
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)

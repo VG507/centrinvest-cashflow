@@ -2,15 +2,15 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {inferMapping,parseStatementCsv,validateStatement} from '../v2/statement';
 import {groupPlanWeeks} from '../v2/plan';
-import type {PlanActualDay} from '../../../blackboard/contracts/types';
+import type {PlanActualDay} from '../../../contracts/types';
 import {readFileSync} from 'node:fs';
 
 const header='operation_id;operation_date;amount;direction;counterparty_name;counterparty_inn;payment_purpose;balance_eod';
-test('original mentor C001 statement has 1131 valid mapped operations',()=>{
- const csv=readFileSync(new URL('../../../data/statements/C001.csv',import.meta.url),'utf8');
+test('benchmark C001 statement has 1131 valid mapped operations',()=>{
+ const csv=readFileSync(new URL('../../../fixtures/statements/C001_logistics.csv',import.meta.url),'utf8');
  const preview=parseStatementCsv(csv);assert.equal(preview.rows.length,1131);assert.deepEqual(validateStatement(preview,inferMapping(preview.headers)),[]);
 });
-test('bank CSV maps mentor headers and preserves quoted semicolons, decimal comma and multiline purpose',()=>{
+test('bank CSV maps standard headers and preserves quoted semicolons, decimal comma and multiline purpose',()=>{
  const parsed=parseStatementCsv('\uFEFF'+header+'\r\nx1;2026-09-01;100,50;income;"Клиент; А";token-1;"Оплата\nпо счету";1000,50\r\n');
  assert.equal(parsed.rows.length,1);assert.equal(parsed.rows[0][4],'Клиент; А');assert.equal(parsed.rows[0][6],'Оплата\nпо счету');
  const mapping=inferMapping(parsed.headers);assert.equal(mapping.purpose,'payment_purpose');assert.equal(mapping.external_id,'operation_id');assert.deepEqual(validateStatement(parsed,mapping),[]);

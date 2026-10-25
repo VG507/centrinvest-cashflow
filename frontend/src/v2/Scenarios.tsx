@@ -6,7 +6,7 @@ import { RotateCcw } from 'lucide-react';
 import { TableViewport } from './TableViewport';
 import { ScenarioComparisonChart } from './ScenarioComparisonChart';
 import { ScenarioSummary } from './ScenarioSummary';
-import type { ActualsResponse, Category, CategoryId, ForecastSnapshot, PlannedEvent, ScenarioAdjustment, ScenarioResponse } from '../../../blackboard/contracts/types';
+import type { ActualsResponse, Category, CategoryId, ForecastSnapshot, PlannedEvent, ScenarioAdjustment, ScenarioResponse } from '../../../contracts/types';
 import { dateLabel, fullDate, rub } from '../lib/cashflow';
 import { api, messageOf } from './client';
 import { Empty, ErrorBox, Loading, validateSnapshot } from './shared';

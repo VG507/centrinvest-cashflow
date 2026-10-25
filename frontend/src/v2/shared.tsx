@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { DependencyList, ReactNode } from 'react';
 import { LoaderCircle, TriangleAlert } from 'lucide-react';
-import type { Category, CategoryId, ForecastSnapshot } from '../../../blackboard/contracts/types';
+import type { Category, CategoryId, ForecastSnapshot } from '../../../contracts/types';
 import { addDays, validDate } from '../lib/cashflow';
 import { messageOf } from './client';
 

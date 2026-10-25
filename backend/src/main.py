@@ -8,7 +8,7 @@ from src.config import settings
 from src.database import init_db, async_session_factory
 from src.services.auth_service import AuthService
 from src.models.entities import Company, CompanyMembership
-from src.api.deps import AntigravityApiException
+from src.api.deps import PlatformApiException
 from src.api.auth import router as auth_router
 from src.api.companies import router as companies_router
 from src.api.statements import router as statements_router
@@ -50,13 +50,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version="2.0.0",
-    description="Backend API for Hack RND 2026 - Financial Forecasting and AI Advisory for Small Business",
+    description="Bank «Center-invest» Cash Flow Intelligence Platform API",
     lifespan=lifespan
 )
 
 # Exception handler for ApiError
-@app.exception_handler(AntigravityApiException)
-async def api_exception_handler(request: Request, exc: AntigravityApiException):
+@app.exception_handler(PlatformApiException)
+async def api_exception_handler(request: Request, exc: PlatformApiException):
     req_id = getattr(request.state, "request_id", str(uuid.uuid4()))
     return JSONResponse(
         status_code=exc.status_code,

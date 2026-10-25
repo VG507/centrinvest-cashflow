@@ -5,7 +5,7 @@ import { TableViewport } from './TableViewport';
 import { Select } from './Select';
 import { useEffect, useState, useRef } from 'react';
 import { ArrowDownToLine, ArrowDownLeft, ArrowUpRight, CalendarDays, RefreshCw, ShieldCheck, Wallet, Sparkles, Table2 } from 'lucide-react';
-import type { ActualsResponse, AdviceResponse, Company, CreateForecastRequest, ForecastSnapshot } from '../../../blackboard/contracts/types';
+import type { ActualsResponse, AdviceResponse, Company, CreateForecastRequest, ForecastSnapshot } from '../../../contracts/types';
 import { dateLabel, downloadCsv, fullDate, rub } from '../lib/cashflow';
 import { api, messageOf } from './client';
 import { Empty, ErrorBox, Loading, modelNames, Percent } from './shared';

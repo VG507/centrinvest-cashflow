@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { SessionResponse } from '../../../blackboard/contracts/types';
+import type { SessionResponse } from '../../../contracts/types';
 import { Brand } from './Brand';
 import { api, messageOf } from './client';
 import { ErrorBox, Loading } from './shared';

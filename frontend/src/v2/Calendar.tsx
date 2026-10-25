@@ -4,7 +4,7 @@ import { TableViewport } from './TableViewport';
 import { Select } from './Select';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
-import type { Category, EventKind, ExternalEventsRequest, PlannedEvent, PlannedEventInput } from '../../../blackboard/contracts/types';
+import type { Category, EventKind, ExternalEventsRequest, PlannedEvent, PlannedEventInput } from '../../../contracts/types';
 import { addDays, dateLabel, fullDate, rub, validDate } from '../lib/cashflow';
 import { api, messageOf } from './client';
 import { Empty, ErrorBox, Percent } from './shared';

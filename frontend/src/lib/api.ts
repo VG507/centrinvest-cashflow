@@ -1,5 +1,5 @@
-import { API_ROUTES } from '../../../blackboard/contracts/types';
-import type { AdvisorRequest, AdvisorResponse, ForecastRequest, ForecastResult } from '../../../blackboard/contracts/types';
+import { API_ROUTES } from '../../../contracts/types';
+import type { AdvisorRequest, AdvisorResponse, ForecastRequest, ForecastResult } from '../../../contracts/types';
 import { checkForecast } from './cashflow';
 
 const base = (import.meta.env.VITE_API_BASE_URL ?? '').trim().replace(/\/+$/, '');

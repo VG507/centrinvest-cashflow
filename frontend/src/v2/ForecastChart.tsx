@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { Area, CartesianGrid, ComposedChart, Line, ReferenceArea, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import type { ActualsResponse, ForecastSnapshot, PlanActualDay } from '../../../blackboard/contracts/types';
+import type { ActualsResponse, ForecastSnapshot, PlanActualDay } from '../../../contracts/types';
 import { addDays, dateLabel, fullDate, rub, shortRub } from '../lib/cashflow';
 
 export function ForecastChart({ forecast, actuals, scenario, selectedDate }: { forecast: ForecastSnapshot; actuals: ActualsResponse | null; scenario?: ForecastSnapshot | null; selectedDate?: string }) {

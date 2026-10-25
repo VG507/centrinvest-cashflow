@@ -44,9 +44,9 @@ def test_attack_schema_statement_import_format_divergence():
     """
     REMEDY 1.2: StatementImportForm includes '1c' format union in types.ts.
     
-    Verifies that blackboard/contracts/types.ts StatementImportForm includes '1c'.
+    Verifies that contracts/types.ts StatementImportForm includes '1c'.
     """
-    ts_path = ROOT_DIR / "contracts/types.ts" if (ROOT_DIR / "contracts/types.ts").exists() else ROOT_DIR / "blackboard/contracts/types.ts"
+    ts_path = ROOT_DIR / "contracts" / "types.ts"
     with open(ts_path, "r", encoding="utf-8") as f:
         ts_content = f.read()
 

@@ -1,5 +1,5 @@
 import { CalendarDays, ChartNoAxesCombined, ShieldCheck, TriangleAlert, Wallet } from 'lucide-react';
-import type { ForecastSnapshot } from '../../../blackboard/contracts/types';
+import type { ForecastSnapshot } from '../../../contracts/types';
 import { fullDate, rub } from '../lib/cashflow';
 import { Percent } from './shared';
 

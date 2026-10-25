@@ -7,12 +7,15 @@ from src.models.entities import User
 from src.schemas.contracts import ApiError
 from src.config import settings
 
-class AntigravityApiException(HTTPException):
+class PlatformApiException(HTTPException):
     def __init__(self, status_code: int, code: str, message: str, details: list = None):
         super().__init__(status_code=status_code, detail=message)
         self.code = code
         self.api_message = message
         self.details = details or []
+
+# Backward-compatibility alias
+PlatformApiException = PlatformApiException
 
 async def get_session_token(request: Request) -> str | None:
     # 1. Check cookie
@@ -31,14 +34,14 @@ async def get_current_user(
 ) -> User:
     token = await get_session_token(request)
     if not token:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             code="unauthorized",
             message="Missing or invalid session credentials"
         )
     val = await AuthService.validate_session(db, token)
     if not val:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             code="unauthorized",
             message="Session has expired or is invalid"
@@ -53,7 +56,7 @@ async def verify_company_access(
 ) -> User:
     has_access = await AuthService.ensure_user_has_company(db, user.id, company_id)
     if not has_access:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_403_FORBIDDEN,
             code="forbidden",
             message=f"Access denied to company {company_id}"

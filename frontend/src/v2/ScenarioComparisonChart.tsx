@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { Area, CartesianGrid, ComposedChart, Line, ReferenceArea, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import type { ActualsResponse, ForecastSnapshot } from '../../../blackboard/contracts/types';
+import type { ActualsResponse, ForecastSnapshot } from '../../../contracts/types';
 import { addDays, dateLabel, fullDate, rub, shortRub } from '../lib/cashflow';
 
 export function ScenarioComparisonChart({base,scenario,actuals,showHistory}:{base:ForecastSnapshot;scenario:ForecastSnapshot|null;actuals:ActualsResponse|null;showHistory:boolean}){

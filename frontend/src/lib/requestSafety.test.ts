@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { canEditQueryResult, createDebouncedRequest, createRequestGate, decodeStatementBytes, forecastControlValues, readForecastRequest, refreshForecastRequest, storeForecastRequest } from './requestSafety';
-import type { CreateForecastRequest } from '../../../blackboard/contracts/types';
+import type { CreateForecastRequest } from '../../../contracts/types';
 
 test('snapshot provenance roundtrips automatic balance and disabled events, isolated per company', () => {
   const values = new Map<string,string>();

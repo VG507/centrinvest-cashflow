@@ -5,12 +5,14 @@ import pytest
 import httpx
 
 @pytest.mark.asyncio
-async def test_mentor_dataset_evaluation_and_reconciliation(auth_client: httpx.AsyncClient, fresh_company_id: str):
+async def test_benchmark_dataset_evaluation_and_reconciliation(auth_client: httpx.AsyncClient, fresh_company_id: str):
     from pathlib import Path
     repo_root = Path(__file__).resolve().parents[2]
-    csv_path = repo_root / "data" / "statements" / "C001.csv"
+    csv_path = repo_root / "fixtures" / "statements" / "C001_logistics.csv"
     if not os.path.exists(csv_path):
-        pytest.skip(f"Mentor dataset C001.csv not present at {csv_path}")
+        csv_path = repo_root / "data" / "statements" / "C001.csv"
+    if not os.path.exists(csv_path):
+        pytest.skip(f"Benchmark dataset C001 not present at {csv_path}")
 
     with open(csv_path, "rb") as f:
         file_bytes = f.read()

@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import get_db
 from src.services.evaluation_service import EvaluationService
 from src.schemas.contracts import EvaluationRequest, EvaluationResponse
-from src.api.deps import AntigravityApiException, verify_company_access
+from src.api.deps import PlatformApiException, verify_company_access
 from src.models.entities import User
 
 router = APIRouter(prefix="/api/v2/companies/{company_id}", tags=["evaluations"])
@@ -19,18 +19,18 @@ async def evaluate_models(
         return await EvaluationService.evaluate_models(db, company_id, req)
     except ValueError as e:
         if "insufficient_data" in str(e):
-            raise AntigravityApiException(
+            raise PlatformApiException(
                 status_code=422,
                 code="insufficient_data",
                 message=str(e)
             )
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_400_BAD_REQUEST,
             code="validation_error",
             message=str(e)
         )
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)
@@ -46,7 +46,7 @@ async def get_evaluation(
     try:
         return await EvaluationService.get_evaluation(db, company_id, evaluation_id)
     except KeyError as e:
-        raise AntigravityApiException(
+        raise PlatformApiException(
             status_code=status.HTTP_404_NOT_FOUND,
             code="not_found",
             message=str(e)

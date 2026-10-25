@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import type { ForecastSummary } from '../../../blackboard/contracts/types';
+import type { ForecastSummary } from '../../../contracts/types';
 import { ScenarioSummary } from '../v2/ScenarioSummary';
 
 const summary:ForecastSummary={closing_balance:1000,end_balance:1200,total_income:500,total_expense:300,minimum_balance:800,minimum_balance_date:'2026-10-25',first_gap_date:null,maximum_shortage:0,any_gap_probability:.1,risk_level:'low'};
