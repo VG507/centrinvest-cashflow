@@ -1,0 +1,35 @@
+{
+  "name": "hackrnd-cashflow-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "contracts": "node scripts/generate-openapi.mjs",
+    "contracts:check": "node scripts/generate-openapi.mjs --check",
+    "test": "tsx --test src/lib/*.test.ts"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "read-excel-file": "^9.3.12",
+    "recharts": "^3.3.0",
+    "tailwindcss": "^4.1.0",
+    "write-excel-file": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "ts-json-schema-generator": "^2.4.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.0",
+    "yaml": "^2.8.0"
+  }
+}

@@ -1,0 +1,11 @@
+import { useEffect, useState } from 'react';
+import type { SessionResponse } from '../../../blackboard/contracts/types';
+import { Brand } from './Brand';
+import { api, messageOf } from './client';
+import { ErrorBox, Loading } from './shared';
+
+export default function Login({ onLogin, reason }: { onLogin: (session: SessionResponse) => void; reason: string }) {
+  const [email, setEmail] = useState('demo@centrinvest.ru'), [password, setPassword] = useState(''), [pending, setPending] = useState(false), [error, setError] = useState('');
+  useEffect(() => { if (error) document.getElementById('login-error')?.focus(); }, [error]);
+  return <main className="login-page login-refresh"><section className="login-story"><svg className="login-brand-motif" viewBox="0 0 320 320" fill="none" aria-hidden="true" focusable="false"><circle cx="88" cy="84" r="42"/><circle cx="232" cy="236" r="42"/><path d="M65 282 255 38"/></svg><a className="brand bank-brand" href="#login"><Brand/></a><div className="login-intro"><h2><span>Планируйте платежи</span><span>заранее.</span></h2><p>Загрузите выписку, добавьте будущие платежи и посмотрите прогноз остатка.</p></div></section><section id="login" className="login-form"><div><h1>Войти в УЧЁТ</h1><p className="login-instruction">Введите почту и пароль.</p>{reason && <p className="login-reason" role="status">{reason==='Вы вышли из рабочего пространства.'?'Вы вышли из аккаунта.':reason}</p>}<form aria-label="Вход в УЧЁТ" aria-busy={pending} onSubmit={async e => { e.preventDefault(); if (pending) return; setPending(true); setError(''); try { onLogin(await api('login', { data: { email, password } })); setPassword(''); } catch (e) { setError(messageOf(e)); } finally { setPending(false); } }}><div id="login-error" tabIndex={-1}><ErrorBox message={error} /></div><label htmlFor="email">Электронная почта</label><input id="email" name="email" autoComplete="username" type="email" required value={email} onChange={e => setEmail(e.target.value)} /><label htmlFor="password">Пароль</label><input id="password" name="password" autoComplete="current-password" type="password" required value={password} onChange={e => setPassword(e.target.value)} /><button className="button button-primary" disabled={pending}>{pending ? <Loading text="Входим…" /> : 'Войти'}</button></form></div></section></main>;
+}

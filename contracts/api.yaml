@@ -1,0 +1,4409 @@
+# Generated from types.ts; do not edit by hand.
+openapi: 3.1.0
+info:
+  title: Hack RND 2026 Cashflow API
+  version: 2.0.0
+  description: "Generated from types.ts. v1 exists; v2 describes target behavior. Runtime invariants: ARCH_PLAN.md."
+servers:
+  - url: /
+paths:
+  /health:
+    get:
+      operationId: health
+      tags:
+        - health
+      description: Existing health check.
+      security: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v1/forecast:
+    post:
+      operationId: forecastV1
+      tags:
+        - legacy-v1
+      description: Existing API. Synthetic demo only until authentication is enforced.
+      security: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForecastResult"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LegacyValidationError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForecastRequest"
+  /api/v1/ai-advisor:
+    post:
+      operationId: advisorV1
+      tags:
+        - legacy-v1
+      description: Existing API. Synthetic demo only until authentication is enforced.
+      security: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdvisorResponse"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LegacyValidationError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdvisorRequest"
+  /api/v2/capabilities:
+    get:
+      operationId: capabilities
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CapabilitiesResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/auth/login:
+    post:
+      operationId: login
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+  /api/v2/auth/session:
+    get:
+      operationId: session
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/auth/logout:
+    post:
+      operationId: logout
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogoutResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies:
+    get:
+      operationId: listCompanies
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyListResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    post:
+      operationId: createCompany
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters: []
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanyCreateRequest"
+  /api/v2/companies/{company_id}:
+    get:
+      operationId: getCompany
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/categories:
+    get:
+      operationId: categories
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryListResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/imports:
+    post:
+      operationId: importStatement
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/StatementImportForm"
+  /api/v2/companies/{company_id}/transactions:
+    get:
+      operationId: listTransactions
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: from_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: to_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: direction
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Direction"
+        - name: category_id
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/CategoryId"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionListResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/transactions/{transaction_id}/category:
+    patch:
+      operationId: updateCategory
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: transaction_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryUpdateRequest"
+  /api/v2/companies/{company_id}/actuals:
+    get:
+      operationId: actuals
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: from_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: to_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActualsResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/recurring:
+    get:
+      operationId: recurring
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecurringListResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/events:
+    get:
+      operationId: listEvents
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: from_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: to_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/EventStatus"
+        - name: kind
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/EventKind"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventListResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    post:
+      operationId: createEvent
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlannedEvent"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlannedEventInput"
+  /api/v2/companies/{company_id}/events/{event_id}:
+    put:
+      operationId: updateEvent
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlannedEvent"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventUpdateRequest"
+  /api/v2/companies/{company_id}/external-events:
+    post:
+      operationId: importExternalEvents
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalEventsResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExternalEventsRequest"
+  /api/v2/companies/{company_id}/forecasts:
+    post:
+      operationId: createForecast
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForecastSnapshot"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateForecastRequest"
+  /api/v2/companies/{company_id}/forecasts/{forecast_id}:
+    get:
+      operationId: getForecast
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: forecast_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForecastSnapshot"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/forecasts/{forecast_id}/updates:
+    post:
+      operationId: updateForecast
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: forecast_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForecastUpdateResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForecastUpdateRequest"
+  /api/v2/companies/{company_id}/forecasts/{forecast_id}/scenarios:
+    post:
+      operationId: scenario
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: forecast_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScenarioResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScenarioRequest"
+  /api/v2/companies/{company_id}/plan-actual:
+    get:
+      operationId: planActual
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: from_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: to_date
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/LocalDate"
+        - name: forecast_id
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/EntityId"
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanActualResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/evaluations:
+    post:
+      operationId: evaluate
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EvaluationRequest"
+  /api/v2/companies/{company_id}/evaluations/{evaluation_id}:
+    get:
+      operationId: getEvaluation
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: evaluation_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/forecasts/{forecast_id}/advice:
+    post:
+      operationId: advice
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: forecast_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdviceResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdviceRequest"
+  /api/v2/companies/{company_id}/integrations:
+    get:
+      operationId: integrations
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntegrationListResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/v2/companies/{company_id}/integrations/{integration_id}/sync:
+    post:
+      operationId: syncIntegration
+      tags:
+        - target-v2
+      description: Target contract. Availability must be confirmed via capabilities.
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: company_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: integration_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntegrationSyncResponse"
+        "400":
+          description: HTTP 400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: HTTP 401
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: HTTP 403
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: HTTP 404
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: HTTP 409
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: HTTP 413
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "422":
+          description: HTTP 422
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: HTTP 429
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: HTTP 500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: HTTP 503
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: session_id
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        app:
+          type: string
+      required:
+        - status
+        - app
+      additionalProperties: false
+    ForecastRequest:
+      type: object
+      properties:
+        initial_balance:
+          $ref: "#/components/schemas/Money"
+          description: Closing balance on the last history day.
+        horizon_days:
+          type: number
+          description: Client uses 30, 60 or 90; legacy backend defaults to 14.
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionPoint"
+      required:
+        - initial_balance
+        - horizon_days
+        - history
+      additionalProperties: false
+    Money:
+      type: number
+    TransactionPoint:
+      type: object
+      properties:
+        date:
+          $ref: "#/components/schemas/LocalDate"
+        income:
+          type: number
+        expense:
+          type: number
+      required:
+        - date
+        - income
+        - expense
+      additionalProperties: false
+    LocalDate:
+      type: string
+      format: date
+    ForecastResult:
+      type: object
+      properties:
+        predicted_dates:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocalDate"
+        predicted_income:
+          type: array
+          items:
+            $ref: "#/components/schemas/Money"
+        predicted_expense:
+          type: array
+          items:
+            $ref: "#/components/schemas/Money"
+        predicted_balance:
+          type: array
+          items:
+            $ref: "#/components/schemas/Money"
+        cashflow_gap_detected:
+          type: boolean
+        gap_dates:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocalDate"
+        minimum_expected_balance:
+          $ref: "#/components/schemas/Money"
+        risk_level:
+          $ref: "#/components/schemas/RiskLevel"
+      required:
+        - predicted_dates
+        - predicted_income
+        - predicted_expense
+        - predicted_balance
+        - cashflow_gap_detected
+        - gap_dates
+        - minimum_expected_balance
+        - risk_level
+      additionalProperties: false
+    RiskLevel:
+      type: string
+      enum:
+        - low
+        - medium
+        - critical
+    AdvisorRequest:
+      type: object
+      properties:
+        forecast:
+          $ref: "#/components/schemas/ForecastResult"
+        business_type:
+          type: string
+      required:
+        - forecast
+        - business_type
+      additionalProperties: false
+    AdvisorResponse:
+      type: object
+      properties:
+        analysis:
+          type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+        urgent_action_required:
+          type: boolean
+      required:
+        - analysis
+        - recommendations
+        - urgent_action_required
+      additionalProperties: false
+    CapabilitiesResponse:
+      type: object
+      properties:
+        contract_version:
+          type: string
+        features:
+          type: array
+          items:
+            type: string
+            enum:
+              - imports
+              - categorization
+              - recurring
+              - forecast_v2
+              - probability
+              - events
+              - scenarios
+              - plan_actual
+              - evaluation
+              - integrations
+              - advice
+      required:
+        - contract_version
+        - features
+      additionalProperties: false
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      additionalProperties: false
+    SessionResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/EntityId"
+            display_name:
+              type: string
+            company_ids:
+              type: array
+              items:
+                $ref: "#/components/schemas/EntityId"
+          required:
+            - id
+            - display_name
+            - company_ids
+          additionalProperties: false
+        expires_at:
+          $ref: "#/components/schemas/UtcTimestamp"
+      required:
+        - user
+        - expires_at
+      additionalProperties: false
+    EntityId:
+      type: string
+    UtcTimestamp:
+      type: string
+      format: date-time
+    LogoutResponse:
+      type: object
+      properties:
+        signed_out:
+          type: boolean
+      required:
+        - signed_out
+      additionalProperties: false
+    CompanyListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Company"
+      required:
+        - items
+      additionalProperties: false
+    Company:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        name:
+          type: string
+        business_type:
+          type: string
+        currency:
+          $ref: "#/components/schemas/Currency"
+        timezone:
+          type: string
+        closing_balance:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+          description: Last observed closing balance, not an estimated live bank balance.
+        balance_date:
+          anyOf:
+            - $ref: "#/components/schemas/LocalDate"
+            - type: "null"
+        data_revision:
+          type: number
+      required:
+        - id
+        - name
+        - business_type
+        - currency
+        - timezone
+        - closing_balance
+        - balance_date
+        - data_revision
+      additionalProperties: false
+    Currency:
+      type: string
+      const: RUB
+    CompanyCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        business_type:
+          type: string
+        timezone:
+          type: string
+      required:
+        - name
+        - business_type
+        - timezone
+      additionalProperties: false
+    CategoryListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+      required:
+        - items
+      additionalProperties: false
+    Category:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/CategoryId"
+        name:
+          type: string
+        direction:
+          anyOf:
+            - $ref: "#/components/schemas/Direction"
+            - type: string
+              const: both
+      required:
+        - id
+        - name
+        - direction
+      additionalProperties: false
+    CategoryId:
+      type: string
+      enum:
+        - sales
+        - other_income
+        - payroll
+        - rent
+        - suppliers
+        - taxes
+        - loan
+        - fees
+        - equipment
+        - transfer
+        - other_expense
+        - uncategorized
+    Direction:
+      type: string
+      enum:
+        - income
+        - expense
+    StatementImportForm:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        format:
+          type: string
+          enum:
+            - csv
+            - xlsx
+            - 1c
+        column_mapping:
+          type: string
+        balance_policy:
+          type: string
+          enum:
+            - reject_conflicts
+            - use_last_row
+      required:
+        - file
+        - format
+        - column_mapping
+        - balance_policy
+      additionalProperties: false
+      description: Multipart field description; file is binary, column_mapping is JSON-serialized ColumnMapping.
+    ImportResponse:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        company_id:
+          $ref: "#/components/schemas/EntityId"
+        status:
+          type: string
+          enum:
+            - ready
+            - rejected
+        accepted_rows:
+          type: number
+        duplicate_rows:
+          type: number
+        rejected_rows:
+          type: number
+        period_start:
+          anyOf:
+            - $ref: "#/components/schemas/LocalDate"
+            - type: "null"
+        period_end:
+          anyOf:
+            - $ref: "#/components/schemas/LocalDate"
+            - type: "null"
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/ImportIssue"
+        data_revision:
+          type: number
+      required:
+        - id
+        - company_id
+        - status
+        - accepted_rows
+        - duplicate_rows
+        - rejected_rows
+        - period_start
+        - period_end
+        - issues
+        - data_revision
+      additionalProperties: false
+    ImportIssue:
+      type: object
+      properties:
+        row:
+          type:
+            - number
+            - "null"
+        field:
+          type:
+            - string
+            - "null"
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - row
+        - field
+        - code
+        - message
+      additionalProperties: false
+    TransactionQuery:
+      type: object
+      properties:
+        from_date:
+          $ref: "#/components/schemas/LocalDate"
+        to_date:
+          $ref: "#/components/schemas/LocalDate"
+        limit:
+          type: number
+        cursor:
+          type: string
+        direction:
+          $ref: "#/components/schemas/Direction"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        search:
+          type: string
+      additionalProperties: false
+    TransactionListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Transaction"
+        next_cursor:
+          type:
+            - string
+            - "null"
+        total:
+          type: number
+      required:
+        - items
+        - next_cursor
+        - total
+      additionalProperties: false
+    Transaction:
+      type: object
+      properties:
+        date:
+          $ref: "#/components/schemas/LocalDate"
+        amount:
+          $ref: "#/components/schemas/Money"
+          description: Positive absolute amount; direction carries the sign.
+        direction:
+          $ref: "#/components/schemas/Direction"
+        counterparty_name:
+          type: string
+        counterparty_inn:
+          type: string
+          description: Anonymized dataset token, not required to match real INN syntax.
+        purpose:
+          type: string
+        closing_balance:
+          $ref: "#/components/schemas/Money"
+        external_id:
+          type: string
+        id:
+          $ref: "#/components/schemas/EntityId"
+        company_id:
+          $ref: "#/components/schemas/EntityId"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        category_method:
+          type: string
+          enum:
+            - rule
+            - model
+            - manual
+            - unknown
+        category_confidence:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        source:
+          $ref: "#/components/schemas/SourceReference"
+        matched_event_id:
+          anyOf:
+            - $ref: "#/components/schemas/EntityId"
+            - type: "null"
+      required:
+        - amount
+        - category_confidence
+        - category_id
+        - category_method
+        - closing_balance
+        - company_id
+        - counterparty_inn
+        - counterparty_name
+        - date
+        - direction
+        - id
+        - matched_event_id
+        - purpose
+        - source
+      additionalProperties: false
+    Probability:
+      type: number
+      minimum: 0
+      maximum: 1
+    SourceReference:
+      type: object
+      properties:
+        kind:
+          $ref: "#/components/schemas/SourceKind"
+        source_id:
+          anyOf:
+            - $ref: "#/components/schemas/EntityId"
+            - type: "null"
+        external_id:
+          type:
+            - string
+            - "null"
+        label:
+          type: string
+      required:
+        - kind
+        - source_id
+        - external_id
+        - label
+      additionalProperties: false
+    SourceKind:
+      anyOf:
+        - type: string
+          const: statement
+        - type: string
+          const: manual
+        - $ref: "#/components/schemas/IntegrationKind"
+    IntegrationKind:
+      type: string
+      enum:
+        - invoice
+        - contract
+        - tax
+        - bank
+        - accounting
+        - cash_register
+        - marketplace
+        - registry
+    CategoryUpdateRequest:
+      type: object
+      properties:
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+      required:
+        - category_id
+      additionalProperties: false
+    ActualsQuery:
+      type: object
+      properties:
+        from_date:
+          $ref: "#/components/schemas/LocalDate"
+        to_date:
+          $ref: "#/components/schemas/LocalDate"
+        granularity:
+          type: string
+          enum:
+            - day
+            - week
+      additionalProperties: false
+    ActualsResponse:
+      type: object
+      properties:
+        company_id:
+          $ref: "#/components/schemas/EntityId"
+        data_revision:
+          type: number
+        days:
+          type: array
+          items:
+            $ref: "#/components/schemas/DailyActual"
+        category_totals:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryTotal"
+      required:
+        - company_id
+        - data_revision
+        - days
+        - category_totals
+      additionalProperties: false
+    DailyActual:
+      type: object
+      properties:
+        date:
+          $ref: "#/components/schemas/LocalDate"
+        income:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        expense:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        closing_balance:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        transaction_count:
+          type: number
+        observation:
+          type: string
+          enum:
+            - observed
+            - confirmed_no_activity
+            - missing
+      required:
+        - date
+        - income
+        - expense
+        - closing_balance
+        - transaction_count
+        - observation
+      additionalProperties: false
+    CategoryTotal:
+      type: object
+      properties:
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        amount:
+          $ref: "#/components/schemas/Money"
+        count:
+          type: number
+      required:
+        - category_id
+        - direction
+        - amount
+        - count
+      additionalProperties: false
+    RecurringListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RecurringPattern"
+      required:
+        - items
+      additionalProperties: false
+    RecurringPattern:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        counterparty_name:
+          type: string
+        cadence:
+          type: string
+          enum:
+            - weekly
+            - monthly
+            - quarterly
+        expected_amount:
+          $ref: "#/components/schemas/Money"
+        next_date:
+          $ref: "#/components/schemas/LocalDate"
+        confidence:
+          $ref: "#/components/schemas/Probability"
+        sample_count:
+          type: number
+        transaction_ids:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityId"
+      required:
+        - id
+        - direction
+        - category_id
+        - counterparty_name
+        - cadence
+        - expected_amount
+        - next_date
+        - confidence
+        - sample_count
+        - transaction_ids
+      additionalProperties: false
+    EventQuery:
+      type: object
+      properties:
+        from_date:
+          $ref: "#/components/schemas/LocalDate"
+        to_date:
+          $ref: "#/components/schemas/LocalDate"
+        limit:
+          type: number
+        cursor:
+          type: string
+        status:
+          $ref: "#/components/schemas/EventStatus"
+        kind:
+          $ref: "#/components/schemas/EventKind"
+      additionalProperties: false
+    EventStatus:
+      type: string
+      enum:
+        - planned
+        - partial
+        - paid
+        - overdue
+        - cancelled
+    EventKind:
+      type: string
+      enum:
+        - manual
+        - invoice
+        - contract
+        - tax
+        - loan
+        - payroll
+        - recurring
+    EventListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlannedEvent"
+        next_cursor:
+          type:
+            - string
+            - "null"
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    PlannedEvent:
+      type: object
+      properties:
+        title:
+          type: string
+        kind:
+          $ref: "#/components/schemas/EventKind"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        amount:
+          $ref: "#/components/schemas/Money"
+        due_date:
+          $ref: "#/components/schemas/LocalDate"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        counterparty_name:
+          type:
+            - string
+            - "null"
+        on_time_probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+          description: Chance of arrival on due_date, nullable when unknown.
+        source:
+          $ref: "#/components/schemas/SourceReference"
+        id:
+          $ref: "#/components/schemas/EntityId"
+        company_id:
+          $ref: "#/components/schemas/EntityId"
+        status:
+          $ref: "#/components/schemas/EventStatus"
+        paid_amount:
+          $ref: "#/components/schemas/Money"
+        matched_transaction_ids:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityId"
+        recurrence_id:
+          anyOf:
+            - $ref: "#/components/schemas/EntityId"
+            - type: "null"
+        updated_at:
+          $ref: "#/components/schemas/UtcTimestamp"
+      required:
+        - amount
+        - category_id
+        - company_id
+        - counterparty_name
+        - direction
+        - due_date
+        - id
+        - kind
+        - matched_transaction_ids
+        - on_time_probability
+        - paid_amount
+        - recurrence_id
+        - source
+        - status
+        - title
+        - updated_at
+      additionalProperties: false
+    PlannedEventInput:
+      type: object
+      properties:
+        title:
+          type: string
+        kind:
+          $ref: "#/components/schemas/EventKind"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        amount:
+          $ref: "#/components/schemas/Money"
+        due_date:
+          $ref: "#/components/schemas/LocalDate"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        counterparty_name:
+          type:
+            - string
+            - "null"
+        on_time_probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+          description: Chance of arrival on due_date, nullable when unknown.
+        source:
+          $ref: "#/components/schemas/SourceReference"
+      required:
+        - title
+        - kind
+        - direction
+        - amount
+        - due_date
+        - category_id
+        - counterparty_name
+        - on_time_probability
+        - source
+      additionalProperties: false
+    EventUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        kind:
+          $ref: "#/components/schemas/EventKind"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        amount:
+          $ref: "#/components/schemas/Money"
+        due_date:
+          $ref: "#/components/schemas/LocalDate"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        counterparty_name:
+          type:
+            - string
+            - "null"
+        on_time_probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+          description: Chance of arrival on due_date, nullable when unknown.
+        source:
+          $ref: "#/components/schemas/SourceReference"
+        cancelled:
+          type: boolean
+        expected_data_revision:
+          type:
+            - number
+            - "null"
+      required:
+        - amount
+        - cancelled
+        - category_id
+        - counterparty_name
+        - direction
+        - due_date
+        - kind
+        - on_time_probability
+        - source
+        - title
+      additionalProperties: false
+      description: Full replacement of editable fields; reconciliation fields are server-owned.
+    ExternalEventsRequest:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/SourceReference"
+        invoices:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvoiceInput"
+        contracts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContractInput"
+        taxes:
+          type: array
+          items:
+            $ref: "#/components/schemas/TaxPaymentInput"
+      required:
+        - source
+        - invoices
+        - contracts
+        - taxes
+      additionalProperties: false
+    InvoiceInput:
+      type: object
+      properties:
+        external_id:
+          type: string
+        number:
+          type: string
+        issued_date:
+          $ref: "#/components/schemas/LocalDate"
+        due_date:
+          $ref: "#/components/schemas/LocalDate"
+        amount:
+          $ref: "#/components/schemas/Money"
+        direction:
+          $ref: "#/components/schemas/Direction"
+        counterparty_name:
+          type: string
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        on_time_probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+      required:
+        - external_id
+        - number
+        - issued_date
+        - due_date
+        - amount
+        - direction
+        - counterparty_name
+        - category_id
+        - on_time_probability
+      additionalProperties: false
+    ContractInput:
+      type: object
+      properties:
+        external_id:
+          type: string
+        title:
+          type: string
+        counterparty_name:
+          type: string
+        direction:
+          $ref: "#/components/schemas/Direction"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+        signed_date:
+          $ref: "#/components/schemas/LocalDate"
+        payment_terms:
+          type: string
+        schedule:
+          type: array
+          items:
+            type: object
+            properties:
+              due_date:
+                $ref: "#/components/schemas/LocalDate"
+              amount:
+                $ref: "#/components/schemas/Money"
+              on_time_probability:
+                anyOf:
+                  - $ref: "#/components/schemas/Probability"
+                  - type: "null"
+            required:
+              - due_date
+              - amount
+              - on_time_probability
+            additionalProperties: false
+      required:
+        - external_id
+        - title
+        - counterparty_name
+        - direction
+        - category_id
+        - signed_date
+        - payment_terms
+        - schedule
+      additionalProperties: false
+    TaxPaymentInput:
+      type: object
+      properties:
+        external_id:
+          type: string
+        title:
+          type: string
+        due_date:
+          $ref: "#/components/schemas/LocalDate"
+        amount:
+          $ref: "#/components/schemas/Money"
+        period:
+          type: string
+        authority_source_url:
+          type:
+            - string
+            - "null"
+        confirmed_by_user:
+          type: boolean
+      required:
+        - external_id
+        - title
+        - due_date
+        - amount
+        - period
+        - authority_source_url
+        - confirmed_by_user
+      additionalProperties: false
+    ExternalEventsResponse:
+      type: object
+      properties:
+        created_events:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlannedEvent"
+        updated_count:
+          type: number
+        duplicate_count:
+          type: number
+        data_revision:
+          type: number
+      required:
+        - created_events
+        - updated_count
+        - duplicate_count
+        - data_revision
+      additionalProperties: false
+    CreateForecastRequest:
+      type: object
+      properties:
+        as_of_date:
+          $ref: "#/components/schemas/LocalDate"
+        horizon_days:
+          type: number
+          enum:
+            - 30
+            - 60
+            - 90
+        initial_balance:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+          description: null uses last verified closing balance; non-null is explicit user override.
+        include_planned_events:
+          type: boolean
+        model:
+          anyOf:
+            - $ref: "#/components/schemas/ModelId"
+            - type: string
+              const: auto
+        expected_data_revision:
+          type: number
+      required:
+        - as_of_date
+        - horizon_days
+        - initial_balance
+        - include_planned_events
+        - model
+        - expected_data_revision
+      additionalProperties: false
+    ModelId:
+      type: string
+      enum:
+        - seasonal_naive
+        - weekday_mean
+        - ridge_calendar
+    ForecastSnapshot:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        company_id:
+          $ref: "#/components/schemas/EntityId"
+        created_at:
+          $ref: "#/components/schemas/UtcTimestamp"
+        as_of_date:
+          $ref: "#/components/schemas/LocalDate"
+        horizon_days:
+          type: number
+          enum:
+            - 30
+            - 60
+            - 90
+        currency:
+          $ref: "#/components/schemas/Currency"
+        data_revision:
+          type: number
+        model:
+          $ref: "#/components/schemas/ModelId"
+        model_version:
+          type: string
+        evaluation_id:
+          anyOf:
+            - $ref: "#/components/schemas/EntityId"
+            - type: "null"
+        probability_method:
+          type: string
+          enum:
+            - residual_block_bootstrap
+            - unavailable
+        interval_coverage:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        simulation_count:
+          type: number
+        random_seed:
+          type:
+            - number
+            - "null"
+        summary:
+          $ref: "#/components/schemas/ForecastSummary"
+        days:
+          type: array
+          items:
+            $ref: "#/components/schemas/ForecastDay"
+        gaps:
+          type: array
+          items:
+            $ref: "#/components/schemas/CashGap"
+        warnings:
+          type: array
+          items:
+            $ref: "#/components/schemas/ForecastWarning"
+        data_quality:
+          $ref: "#/components/schemas/DataQuality"
+      required:
+        - id
+        - company_id
+        - created_at
+        - as_of_date
+        - horizon_days
+        - currency
+        - data_revision
+        - model
+        - model_version
+        - evaluation_id
+        - probability_method
+        - interval_coverage
+        - simulation_count
+        - random_seed
+        - summary
+        - days
+        - gaps
+        - warnings
+        - data_quality
+      additionalProperties: false
+    ForecastSummary:
+      type: object
+      properties:
+        closing_balance:
+          $ref: "#/components/schemas/Money"
+        end_balance:
+          $ref: "#/components/schemas/Money"
+        total_income:
+          $ref: "#/components/schemas/Money"
+        total_expense:
+          $ref: "#/components/schemas/Money"
+        minimum_balance:
+          $ref: "#/components/schemas/Money"
+        minimum_balance_date:
+          $ref: "#/components/schemas/LocalDate"
+        first_gap_date:
+          anyOf:
+            - $ref: "#/components/schemas/LocalDate"
+            - type: "null"
+        maximum_shortage:
+          $ref: "#/components/schemas/Money"
+        any_gap_probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+          description: P(any balance < 0 in horizon), not the maximum daily probability.
+        risk_level:
+          $ref: "#/components/schemas/RiskLevel"
+      required:
+        - closing_balance
+        - end_balance
+        - total_income
+        - total_expense
+        - minimum_balance
+        - minimum_balance_date
+        - first_gap_date
+        - maximum_shortage
+        - any_gap_probability
+        - risk_level
+      additionalProperties: false
+    ForecastDay:
+      type: object
+      properties:
+        date:
+          $ref: "#/components/schemas/LocalDate"
+        predicted_income:
+          $ref: "#/components/schemas/Money"
+        predicted_expense:
+          $ref: "#/components/schemas/Money"
+        predicted_balance:
+          $ref: "#/components/schemas/Money"
+        balance_lower:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        balance_upper:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        gap_probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        planned_event_ids:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityId"
+      required:
+        - date
+        - predicted_income
+        - predicted_expense
+        - predicted_balance
+        - balance_lower
+        - balance_upper
+        - gap_probability
+        - planned_event_ids
+      additionalProperties: false
+    CashGap:
+      type: object
+      properties:
+        start_date:
+          $ref: "#/components/schemas/LocalDate"
+        end_date:
+          $ref: "#/components/schemas/LocalDate"
+        minimum_balance_date:
+          $ref: "#/components/schemas/LocalDate"
+        shortage_amount:
+          $ref: "#/components/schemas/Money"
+        probability:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        contributing_event_ids:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityId"
+        explanation:
+          type: string
+      required:
+        - start_date
+        - end_date
+        - minimum_balance_date
+        - shortage_amount
+        - probability
+        - contributing_event_ids
+        - explanation
+      additionalProperties: false
+    ForecastWarning:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        code:
+          type: string
+          enum:
+            - cash_gap
+            - low_balance
+            - overdue_income
+            - missing_data
+            - short_history
+            - unreconciled_balance
+            - uncertain_probability
+            - outlier
+        severity:
+          type: string
+          enum:
+            - info
+            - warning
+            - critical
+        title:
+          type: string
+        message:
+          type: string
+        date:
+          anyOf:
+            - $ref: "#/components/schemas/LocalDate"
+            - type: "null"
+        amount:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        event_id:
+          anyOf:
+            - $ref: "#/components/schemas/EntityId"
+            - type: "null"
+      required:
+        - id
+        - code
+        - severity
+        - title
+        - message
+        - date
+        - amount
+        - event_id
+      additionalProperties: false
+    DataQuality:
+      type: object
+      properties:
+        observed_days:
+          type: number
+        missing_days:
+          type: number
+        duplicate_rows:
+          type: number
+        uncategorized_share:
+          $ref: "#/components/schemas/Probability"
+        warnings:
+          type: array
+          items:
+            type: string
+      required:
+        - observed_days
+        - missing_days
+        - duplicate_rows
+        - uncategorized_share
+        - warnings
+      additionalProperties: false
+    ForecastUpdateRequest:
+      type: object
+      properties:
+        changed_from_date:
+          $ref: "#/components/schemas/LocalDate"
+        expected_data_revision:
+          type: number
+      required:
+        - changed_from_date
+        - expected_data_revision
+      additionalProperties: false
+    ForecastUpdateResponse:
+      type: object
+      properties:
+        forecast:
+          $ref: "#/components/schemas/ForecastSnapshot"
+        mode:
+          type: string
+          enum:
+            - incremental
+            - full_retrain
+        recomputed_from_date:
+          $ref: "#/components/schemas/LocalDate"
+        reason:
+          type: string
+      required:
+        - forecast
+        - mode
+        - recomputed_from_date
+        - reason
+      additionalProperties: false
+    ScenarioRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        adjustments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScenarioAdjustment"
+      required:
+        - name
+        - adjustments
+      additionalProperties: false
+    ScenarioAdjustment:
+      anyOf:
+        - $ref: "#/components/schemas/DelayIncomeScenario"
+        - $ref: "#/components/schemas/RevenueDropScenario"
+        - $ref: "#/components/schemas/ExtraExpenseScenario"
+        - $ref: "#/components/schemas/FixedCostIncreaseScenario"
+    DelayIncomeScenario:
+      type: object
+      properties:
+        kind:
+          type: string
+          const: delay_income
+        event_id:
+          $ref: "#/components/schemas/EntityId"
+        delay_days:
+          type: number
+      required:
+        - kind
+        - event_id
+        - delay_days
+      additionalProperties: false
+    RevenueDropScenario:
+      type: object
+      properties:
+        kind:
+          type: string
+          const: revenue_drop
+        percent:
+          type: number
+        from_date:
+          $ref: "#/components/schemas/LocalDate"
+        to_date:
+          $ref: "#/components/schemas/LocalDate"
+      required:
+        - kind
+        - percent
+        - from_date
+        - to_date
+      additionalProperties: false
+    ExtraExpenseScenario:
+      type: object
+      properties:
+        kind:
+          type: string
+          const: extra_expense
+        amount:
+          $ref: "#/components/schemas/Money"
+        date:
+          $ref: "#/components/schemas/LocalDate"
+        category_id:
+          $ref: "#/components/schemas/CategoryId"
+      required:
+        - kind
+        - amount
+        - date
+        - category_id
+      additionalProperties: false
+    FixedCostIncreaseScenario:
+      type: object
+      properties:
+        kind:
+          type: string
+          const: fixed_cost_increase
+        percent:
+          type: number
+        category_ids:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryId"
+        from_date:
+          $ref: "#/components/schemas/LocalDate"
+        to_date:
+          $ref: "#/components/schemas/LocalDate"
+      required:
+        - kind
+        - percent
+        - category_ids
+        - from_date
+        - to_date
+      additionalProperties: false
+    ScenarioResponse:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        base_forecast_id:
+          $ref: "#/components/schemas/EntityId"
+        name:
+          type: string
+        adjustments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScenarioAdjustment"
+        forecast:
+          $ref: "#/components/schemas/ForecastSnapshot"
+        delta:
+          type: object
+          properties:
+            end_balance:
+              $ref: "#/components/schemas/Money"
+            maximum_shortage:
+              $ref: "#/components/schemas/Money"
+            first_gap_shift_days:
+              type:
+                - number
+                - "null"
+          required:
+            - end_balance
+            - maximum_shortage
+            - first_gap_shift_days
+          additionalProperties: false
+      required:
+        - id
+        - base_forecast_id
+        - name
+        - adjustments
+        - forecast
+        - delta
+      additionalProperties: false
+    PlanActualQuery:
+      type: object
+      properties:
+        from_date:
+          $ref: "#/components/schemas/LocalDate"
+        to_date:
+          $ref: "#/components/schemas/LocalDate"
+        forecast_id:
+          $ref: "#/components/schemas/EntityId"
+        granularity:
+          type: string
+          enum:
+            - day
+            - week
+      required:
+        - forecast_id
+      additionalProperties: false
+    PlanActualResponse:
+      type: object
+      properties:
+        forecast_id:
+          $ref: "#/components/schemas/EntityId"
+        data_revision:
+          type: number
+        days:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlanActualDay"
+        overdue_events:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlannedEvent"
+        updated_forecast_id:
+          anyOf:
+            - $ref: "#/components/schemas/EntityId"
+            - type: "null"
+      required:
+        - forecast_id
+        - data_revision
+        - days
+        - overdue_events
+        - updated_forecast_id
+      additionalProperties: false
+    PlanActualDay:
+      type: object
+      properties:
+        date:
+          $ref: "#/components/schemas/LocalDate"
+        planned_income:
+          $ref: "#/components/schemas/Money"
+        actual_income:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        planned_expense:
+          $ref: "#/components/schemas/Money"
+        actual_expense:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        planned_balance:
+          $ref: "#/components/schemas/Money"
+        actual_balance:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        net_flow_variance:
+          anyOf:
+            - $ref: "#/components/schemas/Money"
+            - type: "null"
+        overdue_event_ids:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityId"
+      required:
+        - date
+        - planned_income
+        - actual_income
+        - planned_expense
+        - actual_expense
+        - planned_balance
+        - actual_balance
+        - net_flow_variance
+        - overdue_event_ids
+      additionalProperties: false
+    EvaluationRequest:
+      type: object
+      properties:
+        training_end_date:
+          $ref: "#/components/schemas/LocalDate"
+        test_days:
+          type: number
+          enum:
+            - 30
+            - 60
+            - 90
+        folds:
+          type: number
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModelId"
+      required:
+        - training_end_date
+        - test_days
+        - folds
+        - models
+      additionalProperties: false
+    EvaluationResponse:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        company_id:
+          $ref: "#/components/schemas/EntityId"
+        created_at:
+          $ref: "#/components/schemas/UtcTimestamp"
+        data_revision:
+          type: number
+        split_method:
+          type: string
+          const: rolling_origin
+        test_days:
+          type: number
+        folds:
+          type: array
+          items:
+            type: object
+            properties:
+              train_end:
+                $ref: "#/components/schemas/LocalDate"
+              test_start:
+                $ref: "#/components/schemas/LocalDate"
+              test_end:
+                $ref: "#/components/schemas/LocalDate"
+            required:
+              - train_end
+              - test_start
+              - test_end
+            additionalProperties: false
+        metrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModelMetrics"
+        selected_model:
+          $ref: "#/components/schemas/ModelId"
+        selection_reason:
+          type: string
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - company_id
+        - created_at
+        - data_revision
+        - split_method
+        - test_days
+        - folds
+        - metrics
+        - selected_model
+        - selection_reason
+        - limitations
+      additionalProperties: false
+    ModelMetrics:
+      type: object
+      properties:
+        model:
+          $ref: "#/components/schemas/ModelId"
+        mae_income:
+          $ref: "#/components/schemas/Money"
+        mae_expense:
+          $ref: "#/components/schemas/Money"
+        mae_balance:
+          $ref: "#/components/schemas/Money"
+        wape_cashflow:
+          type:
+            - number
+            - "null"
+        interval_empirical_coverage:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        gap_precision:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        gap_recall:
+          anyOf:
+            - $ref: "#/components/schemas/Probability"
+            - type: "null"
+        average_warning_lead_days:
+          type:
+            - number
+            - "null"
+        gap_brier_score:
+          type:
+            - number
+            - "null"
+        evaluated_days:
+          type: number
+      required:
+        - model
+        - mae_income
+        - mae_expense
+        - mae_balance
+        - wape_cashflow
+        - interval_empirical_coverage
+        - gap_precision
+        - gap_recall
+        - average_warning_lead_days
+        - gap_brier_score
+        - evaluated_days
+      additionalProperties: false
+    AdviceRequest:
+      type: object
+      properties:
+        business_type:
+          type: string
+      required:
+        - business_type
+      additionalProperties: false
+    AdviceResponse:
+      type: object
+      properties:
+        forecast_id:
+          $ref: "#/components/schemas/EntityId"
+        mode:
+          type: string
+          enum:
+            - llm
+            - rules
+        analysis:
+          type: string
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              rationale:
+                type: string
+              related_event_ids:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EntityId"
+              priority:
+                type: string
+                enum:
+                  - high
+                  - normal
+            required:
+              - title
+              - rationale
+              - related_event_ids
+              - priority
+            additionalProperties: false
+        generated_at:
+          $ref: "#/components/schemas/UtcTimestamp"
+      required:
+        - forecast_id
+        - mode
+        - analysis
+        - recommendations
+        - generated_at
+      additionalProperties: false
+    IntegrationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Integration"
+      required:
+        - items
+      additionalProperties: false
+    Integration:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        kind:
+          $ref: "#/components/schemas/IntegrationKind"
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+            - connected
+            - disconnected
+            - error
+            - not_configured
+        last_sync_at:
+          anyOf:
+            - $ref: "#/components/schemas/UtcTimestamp"
+            - type: "null"
+        last_error:
+          type:
+            - string
+            - "null"
+        supported_entities:
+          type: array
+          items:
+            type: string
+            enum:
+              - transactions
+              - invoices
+              - contracts
+              - taxes
+              - loans
+              - payroll
+              - payment_orders
+              - counterparty_status
+      required:
+        - id
+        - kind
+        - name
+        - status
+        - last_sync_at
+        - last_error
+        - supported_entities
+      additionalProperties: false
+    IntegrationSyncResponse:
+      type: object
+      properties:
+        integration_id:
+          $ref: "#/components/schemas/EntityId"
+        imported_count:
+          type: number
+        data_revision:
+          type: number
+        synced_at:
+          $ref: "#/components/schemas/UtcTimestamp"
+      required:
+        - integration_id
+        - imported_count
+        - data_revision
+        - synced_at
+      additionalProperties: false
+    ApiError:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - validation_error
+            - unauthorized
+            - forbidden
+            - not_found
+            - conflict
+            - insufficient_data
+            - too_large
+            - rate_limited
+            - unavailable
+            - internal_error
+        message:
+          type: string
+        request_id:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+            required:
+              - field
+              - message
+            additionalProperties: false
+      required:
+        - code
+        - message
+        - request_id
+        - details
+      additionalProperties: false
+    LegacyValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            properties:
+              loc:
+                type: array
+                items:
+                  type:
+                    - string
+                    - number
+              msg:
+                type: string
+              type:
+                type: string
+            required:
+              - loc
+              - msg
+              - type
+            additionalProperties: false
+      required:
+        - detail
+      additionalProperties: false
+      description: v1 may return the default FastAPI HTTPValidationError.
+    ColumnMapping:
+      type: object
+      properties:
+        date:
+          type: string
+        amount:
+          type: string
+        direction:
+          type: string
+        counterparty_name:
+          type: string
+        counterparty_inn:
+          type: string
+        purpose:
+          type: string
+        closing_balance:
+          type: string
+        external_id:
+          type: string
+      required:
+        - date
+        - amount
+        - direction
+        - counterparty_name
+        - counterparty_inn
+        - purpose
+        - closing_balance
+      additionalProperties: false
