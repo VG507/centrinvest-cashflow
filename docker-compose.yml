@@ -45,8 +45,8 @@ services:
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: deploy/Dockerfile
+      context: .
+      dockerfile: frontend/deploy/Dockerfile
     container_name: centrinvest_frontend
     restart: unless-stopped
     depends_on:

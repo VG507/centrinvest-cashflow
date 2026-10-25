@@ -132,16 +132,15 @@ npm run dev
 
 ## Verification & Test Suite
 
-The platform includes a 100% automated test suite with **107 backend tests** and **29 frontend tests**:
+The platform includes a 100% automated test suite with **151 backend tests** and **29 frontend tests** (180 total tests):
 
 ```bash
-# Run backend test suite
-pytest backend/tests/test_audit_stage_*.py backend/tests/adversarial/
+# Run entire test suite (backend + frontend)
+make test
 
-# Run frontend test suite
+# Or run individual verification suites:
+PYTHONPATH=backend pytest backend/tests/
 cd frontend && npm test
-
-# Verify production frontend compilation
 npm run build
 ```
 

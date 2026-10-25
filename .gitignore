@@ -24,6 +24,14 @@ env/
 venv/
 ENV/
 
+# Testing & Coverage
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+data/*.json
+*.log
+
 # Node & Frontend
 node_modules/
 frontend/dist/

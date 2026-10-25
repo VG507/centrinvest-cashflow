@@ -1,17 +1,16 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_DEFAULT_TIMEOUT=120 \
+    PIP_RETRIES=5
 
 COPY pyproject.toml .
 
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir \
-    fastapi uvicorn[standard] pydantic pydantic-settings httpx \
-    python-multipart python-dotenv pandas numpy scikit-learn \
-    openpyxl sqlalchemy asyncpg greenlet redis watchdog
+    pip install --no-cache-dir .
 
 COPY src/ ./src/
 
