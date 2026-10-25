@@ -65,57 +65,107 @@ def log_step(step_num: int, total_steps: int, title: str, details: list[str]):
         print(f"  * {d}")
 
 
-def load_raw_dataset(file_path: Path) -> tuple[pd.DataFrame, float, dict]:
-    with open(file_path, "rb") as f:
-        raw_bytes = f.read()
+def load_raw_dataset(file_path: Path, initial_balance_override: float | None = None) -> tuple[pd.DataFrame, float, dict, dict]:
+    ext = file_path.suffix.lower()
+    auto_mapping = {}
 
-    text = decode_text(raw_bytes)
-    is_1c = is_1c_file(text)
-
-    if is_1c:
-        rows, mapping = parse_1c_exchange(text)
-        df_raw = pd.DataFrame(rows)
-        file_format = "1C:ClientBankExchange"
+    if ext in [".xlsx", ".xls"]:
+        df_raw = pd.read_excel(file_path, dtype={"counterparty_inn": str, "ИНН": str})
+        file_format = f"Excel ({ext.upper()})"
     else:
-        # Detect delimiter (; or ,)
-        first_line = text.splitlines()[0] if text.splitlines() else ""
-        delim = ";" if ";" in first_line else ","
-        df_raw = pd.read_csv(pd.io.common.StringIO(text), sep=delim, dtype={"counterparty_inn": str})
-        file_format = f"CSV (delimiter='{delim}', encoding='UTF-8/CP1251')"
+        with open(file_path, "rb") as f:
+            raw_bytes = f.read()
 
-    # Normalize columns
+        text = decode_text(raw_bytes)
+        is_1c = is_1c_file(text)
+
+        if is_1c:
+            rows, mapping = parse_1c_exchange(text)
+            df_raw = pd.DataFrame(rows)
+            file_format = "1C:ClientBankExchange"
+        else:
+            first_line = text.splitlines()[0] if text.splitlines() else ""
+            if "\t" in first_line:
+                delim = "\t"
+            elif ";" in first_line:
+                delim = ";"
+            else:
+                delim = ","
+            df_raw = pd.read_csv(pd.io.common.StringIO(text), sep=delim, dtype={"counterparty_inn": str, "ИНН": str})
+            file_format = f"CSV (delimiter='{delim}', encoding='UTF-8/CP1251')"
+
+    # Check for separate Debit / Credit columns
+    cols_lower = {str(c).strip().lower(): c for c in df_raw.columns}
+    debit_col = next((cols_lower[k] for k in ["дебет", "расход", "списание", "debit", "outflow", "expense"] if k in cols_lower), None)
+    credit_col = next((cols_lower[k] for k in ["кредит", "приход", "поступление", "credit", "inflow", "income"] if k in cols_lower), None)
+
+    if debit_col and credit_col and "direction" not in cols_lower and "вид" not in cols_lower and "тип" not in cols_lower:
+        d_vals = df_raw[debit_col].apply(parse_decimal).fillna(0.0)
+        c_vals = df_raw[credit_col].apply(parse_decimal).fillna(0.0)
+        df_raw["amount"] = np.where(c_vals > 0, c_vals, d_vals)
+        df_raw["direction"] = np.where(c_vals > 0, "income", "expense")
+
+    # Normalize standard columns
     col_map = {
-        "operation_date": "date",
-        "Дата": "date",
-        "amount": "amount",
-        "Сумма": "amount",
-        "direction": "direction",
-        "counterparty_inn": "counterparty_inn",
-        "counterparty_name": "counterparty_name",
-        "payment_purpose": "purpose",
-        "НазначениеПлатежа": "purpose",
-        "balance_eod": "balance_eod",
-        "КонечныйОстаток": "balance_eod",
+        "operation_date": "date", "Дата": "date", "дата": "date", "date": "date", "Дата операции": "date", "ДатаПроводки": "date", "ДатаДокумента": "date",
+        "amount": "amount", "Сумма": "amount", "сумма": "amount", "Сумма операции": "amount",
+        "direction": "direction", "Тип": "direction", "Вид": "direction", "ВидОперации": "direction",
+        "counterparty_inn": "counterparty_inn", "ИНН": "counterparty_inn", "инн": "counterparty_inn", "ИНН контрагента": "counterparty_inn", "ПлательщикИНН": "counterparty_inn", "ПолучательИНН": "counterparty_inn",
+        "counterparty_name": "counterparty_name", "Контрагент": "counterparty_name", "контрагент": "counterparty_name", "Наименование": "counterparty_name", "Плательщик": "counterparty_name", "Получатель": "counterparty_name",
+        "payment_purpose": "purpose", "НазначениеПлатежа": "purpose", "Назначение": "purpose", "назначение": "purpose", "Назначение платежа": "purpose", "purpose": "purpose",
+        "balance_eod": "balance_eod", "КонечныйОстаток": "balance_eod", "Остаток": "balance_eod", "остаток": "balance_eod", "Остаток на конец": "balance_eod", "balance": "balance_eod"
     }
-    for old_col, new_col in col_map.items():
-        if old_col in df_raw.columns and new_col not in df_raw.columns:
-            df_raw[new_col] = df_raw[old_col]
+
+    found_raw_cols = {}
+    for raw_c in df_raw.columns:
+        norm = col_map.get(raw_c) or col_map.get(str(raw_c).strip())
+        if norm and norm not in found_raw_cols:
+            found_raw_cols[norm] = raw_c
+            if norm not in df_raw.columns:
+                df_raw[norm] = df_raw[raw_c]
+
+    # Handle signed amount when direction is missing
+    if "direction" not in df_raw.columns and "amount" in df_raw.columns:
+        raw_amts = df_raw["amount"].apply(parse_decimal)
+        df_raw["direction"] = np.where(raw_amts < 0, "expense", "income")
+        df_raw["amount"] = raw_amts.abs()
 
     df_raw["date"] = pd.to_datetime(df_raw["date"].apply(parse_date))
     df_raw["amount"] = df_raw["amount"].apply(parse_decimal)
     df_raw["direction"] = df_raw["direction"].apply(parse_direction)
-    df_raw["counterparty_inn"] = df_raw["counterparty_inn"].fillna("").astype(str)
-    df_raw["counterparty_name"] = df_raw["counterparty_name"].fillna("").astype(str)
-    df_raw["purpose"] = df_raw["purpose"].fillna("").astype(str)
-    df_raw["balance_eod"] = df_raw["balance_eod"].apply(parse_decimal)
+    df_raw["counterparty_inn"] = df_raw["counterparty_inn"].fillna("").astype(str) if "counterparty_inn" in df_raw.columns else ""
+    df_raw["counterparty_name"] = df_raw["counterparty_name"].fillna("").astype(str) if "counterparty_name" in df_raw.columns else ""
+    df_raw["purpose"] = df_raw["purpose"].fillna("").astype(str) if "purpose" in df_raw.columns else ""
 
-    df_raw = df_raw.dropna(subset=["date", "amount", "direction", "balance_eod"]).sort_values("date")
+    if "balance_eod" in df_raw.columns:
+        df_raw["balance_eod"] = df_raw["balance_eod"].apply(parse_decimal)
 
-    # Initial balance formula: B_start = balance_eod_1 - income_1 + expense_1
-    first_row = df_raw.iloc[0]
-    first_inc = first_row["amount"] if first_row["direction"] == "income" else 0.0
-    first_exp = first_row["amount"] if first_row["direction"] == "expense" else 0.0
-    initial_balance = round(float(first_row["balance_eod"]) - first_inc + first_exp, 2)
+    df_raw = df_raw.dropna(subset=["date", "amount", "direction"]).sort_values("date")
+
+    # If balance_eod is absent or all NaN, reconstruct via rolling sum from initial balance
+    if "balance_eod" not in df_raw.columns or df_raw["balance_eod"].isna().all():
+        base_bal = initial_balance_override if initial_balance_override is not None else 1_000_000.0
+        deltas = np.where(df_raw["direction"] == "income", df_raw["amount"], -df_raw["amount"])
+        df_raw["balance_eod"] = (base_bal + np.cumsum(deltas)).round(2)
+        initial_balance = base_bal
+    else:
+        df_raw["balance_eod"] = df_raw["balance_eod"].ffill().bfill()
+        first_row = df_raw.iloc[0]
+        first_inc = first_row["amount"] if first_row["direction"] == "income" else 0.0
+        first_exp = first_row["amount"] if first_row["direction"] == "expense" else 0.0
+        calc_init = round(float(first_row["balance_eod"]) - first_inc + first_exp, 2)
+        initial_balance = initial_balance_override if initial_balance_override is not None else calc_init
+
+    upload_mapping = {
+        "date": found_raw_cols.get("date", "operation_date"),
+        "amount": found_raw_cols.get("amount", "amount"),
+        "direction": found_raw_cols.get("direction", "direction"),
+        "counterparty_name": found_raw_cols.get("counterparty_name", "counterparty_name"),
+        "counterparty_inn": found_raw_cols.get("counterparty_inn", "counterparty_inn"),
+        "purpose": found_raw_cols.get("purpose", "payment_purpose"),
+        "closing_balance": found_raw_cols.get("balance_eod", "balance_eod"),
+        "external_id": "operation_id"
+    }
 
     meta = {
         "file_format": file_format,
@@ -124,11 +174,12 @@ def load_raw_dataset(file_path: Path) -> tuple[pd.DataFrame, float, dict]:
         "end_date": df_raw["date"].max().strftime("%Y-%m-%d"),
         "initial_balance": initial_balance,
         "latest_closing_balance": float(df_raw.iloc[-1]["balance_eod"]),
+        "upload_mapping": upload_mapping,
     }
-    return df_raw, initial_balance, meta
+    return df_raw, initial_balance, meta, upload_mapping
 
 
-def run_control_audit(file_path: str, horizon_days: int = 30, output_json: str | None = None):
+def run_control_audit(file_path: str, horizon_days: int = 30, initial_balance_override: float | None = None, output_json: str | None = None):
     p = Path(file_path)
     if not p.exists():
         print(f"Error: dataset file not found: {file_path}")
@@ -140,7 +191,7 @@ def run_control_audit(file_path: str, horizon_days: int = 30, output_json: str |
     # =========================================================================
     # STEP 1: INGESTION AND NORMALIZATION
     # =========================================================================
-    df_raw, initial_balance, meta = load_raw_dataset(p)
+    df_raw, initial_balance, meta, upload_mapping = load_raw_dataset(p, initial_balance_override=initial_balance_override)
     log_step(1, total_steps, "Statement Ingestion & Boundary Recovery", [
         f"Source file: {p.resolve()}",
         f"Format detected: {meta['file_format']}",
@@ -625,21 +676,31 @@ def upload_to_api(file_path: str, api_url: str):
             file_bytes = f.read()
 
         is_1c = file_bytes.startswith(b"1CClientBankExchange")
-        fmt = "1c" if is_1c else "csv"
-        files = {"file": (p.name, file_bytes, "text/plain" if is_1c else "text/csv")}
+        if p.suffix.lower() in [".xlsx", ".xls"]:
+            fmt = "xlsx"
+            mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        elif is_1c:
+            fmt = "1c"
+            mime = "text/plain"
+        else:
+            fmt = "csv"
+            mime = "text/csv"
+
+        mapping_to_use = upload_mapping or {
+            "date": "operation_date",
+            "amount": "amount",
+            "direction": "direction",
+            "counterparty_name": "counterparty_name",
+            "counterparty_inn": "counterparty_inn",
+            "purpose": "payment_purpose",
+            "closing_balance": "balance_eod",
+            "external_id": "operation_id"
+        }
+        files = {"file": (p.name, file_bytes, mime)}
         data = {
             "format": fmt,
             "balance_policy": "reject_conflicts",
-            "column_mapping": json.dumps({
-                "date": "operation_date",
-                "amount": "amount",
-                "direction": "direction",
-                "counterparty_name": "counterparty_name",
-                "counterparty_inn": "counterparty_inn",
-                "purpose": "payment_purpose",
-                "closing_balance": "balance_eod",
-                "external_id": "operation_id"
-            })
+            "column_mapping": json.dumps(mapping_to_use)
         }
         import_resp = client.post(f"/api/v2/companies/{company_id}/imports", files=files, data=data)
         if import_resp.status_code != 200:
@@ -674,12 +735,13 @@ def upload_to_api(file_path: str, api_url: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bank Center-invest Control Dataset Evaluator")
-    parser.add_argument("--file", "-f", required=True, help="Path to control dataset (CSV or 1CClientBankExchange)")
+    parser.add_argument("--file", "-f", required=True, help="Path to control dataset (CSV, XLSX, or 1CClientBankExchange)")
     parser.add_argument("--horizon", "-H", type=int, default=30, choices=[30, 60, 90], help="Forecast horizon (days)")
+    parser.add_argument("--initial-balance", "-b", type=float, default=None, help="Optional initial liquid balance override (RUB)")
     parser.add_argument("--output-json", "-o", default="data/control_audit_summary.json", help="Path to output JSON")
-    parser.add_argument("--upload-to-api", "-u", help="Optional API URL to sync dataset into live web platform (e.g. http://194.113.106.233)")
+    parser.add_argument("--upload-to-api", "-u", help="Optional API URL to sync dataset into live web platform (e.g. https://app.194.113.106.233.sslip.io)")
     args = parser.parse_args()
 
-    res = run_control_audit(file_path=args.file, horizon_days=args.horizon, output_json=args.output_json)
+    res = run_control_audit(file_path=args.file, horizon_days=args.horizon, initial_balance_override=args.initial_balance, output_json=args.output_json)
     if args.upload_to_api:
-        upload_to_api(file_path=args.file, api_url=args.upload_to_api)
+        upload_to_api(file_path=args.file, api_url=args.upload_to_api, upload_mapping=res.get("metadata", {}).get("upload_mapping"))
